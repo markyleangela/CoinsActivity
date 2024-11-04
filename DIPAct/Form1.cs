@@ -11,9 +11,9 @@ namespace DIPAct
 
 
         VideoCaptureDevice webcam;
-    
-        Color green = Color.FromArgb(0, 0, 255); // Define the target green
-      
+
+        Color green = Color.FromArgb(0, 0, 255); //  the target green
+
 
         public Form1()
         {
@@ -31,30 +31,30 @@ namespace DIPAct
 
         private void ProcessFrame(object sender, NewFrameEventArgs eventArgs)
         {
-           
-            Bitmap imageB = (Bitmap)eventArgs.Frame.Clone();
-            Bitmap resultImage = new Bitmap(imageB.Width, imageB.Height);
-            int threshold = 5;
-           
-            for (int x = 0; x < imageB.Width; x++)
+
+            Bitmap captureFrame = (Bitmap)eventArgs.Frame.Clone();
+            Bitmap resultImage = new Bitmap(captureFrame.Width, captureFrame.Height);
+            int threshold = 20;
+
+            for (int x = 0; x < captureFrame.Width; x++)
             {
-                for (int y = 0; y < imageB.Height; y++)
+                for (int y = 0; y < captureFrame.Height; y++)
                 {
-                    Color pixel = imageB.GetPixel(x, y);
+                    Color pixel = captureFrame.GetPixel(x, y);
                     int grey = (pixel.R + pixel.G + pixel.B) / 3;
                     int greenGrey = (green.R + green.G + green.B) / 3;
-                
-                    Color backpixel = imageA.GetPixel(x, y);
+
+                    Color backpixel = imageA.GetPixel(x, y); // get the background
                     int subtractvalue = Math.Abs(grey - greenGrey);
-                    
-                    if (subtractvalue  < threshold)
-                        resultImage.SetPixel(x, y,backpixel);
+
+                    if (subtractvalue < threshold)
+                        resultImage.SetPixel(x, y, backpixel);
                     else
                         resultImage.SetPixel(x, y, pixel);
                 }
             }
 
-         
+
             pictureBox3.Image = resultImage;
         }
 
@@ -212,7 +212,7 @@ namespace DIPAct
             int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3; //turn it into greyscale
             int threshold = 5;
             resultImage = new Bitmap(imageA.Width, imageA.Height);
-      
+
             for (int x = 0; x < imageB.Width; x++)
             {
                 for (int y = 0; y < imageB.Height; y++)
@@ -237,6 +237,11 @@ namespace DIPAct
         private void button4_Click(object sender, EventArgs e)
         {
             StartWebcam();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            StopWebcam();
         }
     }
 }
