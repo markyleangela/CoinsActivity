@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
@@ -38,6 +39,13 @@
             colorInversionToolStripMenuItem = new ToolStripMenuItem();
             histogramToolStripMenuItem = new ToolStripMenuItem();
             sepiaToolStripMenuItem = new ToolStripMenuItem();
+            onToolStripMenuItem = new ToolStripMenuItem();
+            offToolStripMenuItem = new ToolStripMenuItem();
+            videoToolStripMenuItem = new ToolStripMenuItem();
+            basicCopyToolStripMenuItem1 = new ToolStripMenuItem();
+            greyscaleToolStripMenuItem1 = new ToolStripMenuItem();
+            colorInversionToolStripMenuItem1 = new ToolStripMenuItem();
+            sepiaToolStripMenuItem1 = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
@@ -48,8 +56,12 @@
             button3 = new Button();
             openFileDialog2 = new OpenFileDialog();
             openFileDialog3 = new OpenFileDialog();
-            button4 = new Button();
-            button5 = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
+            timer2 = new System.Windows.Forms.Timer(components);
+            timer3 = new System.Windows.Forms.Timer(components);
+            timer4 = new System.Windows.Forms.Timer(components);
+            timer5 = new System.Windows.Forms.Timer(components);
+            subtractToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -59,7 +71,7 @@
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, dIPToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, dIPToolStripMenuItem, onToolStripMenuItem, offToolStripMenuItem, videoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1249, 28);
@@ -129,6 +141,55 @@
             sepiaToolStripMenuItem.Size = new Size(191, 26);
             sepiaToolStripMenuItem.Text = "Sepia";
             sepiaToolStripMenuItem.Click += sepiaToolStripMenuItem_Click;
+            // 
+            // onToolStripMenuItem
+            // 
+            onToolStripMenuItem.Name = "onToolStripMenuItem";
+            onToolStripMenuItem.Size = new Size(42, 24);
+            onToolStripMenuItem.Text = "On";
+            onToolStripMenuItem.Click += onToolStripMenuItem_Click;
+            // 
+            // offToolStripMenuItem
+            // 
+            offToolStripMenuItem.Name = "offToolStripMenuItem";
+            offToolStripMenuItem.Size = new Size(44, 24);
+            offToolStripMenuItem.Text = "Off";
+            offToolStripMenuItem.Click += offToolStripMenuItem_Click;
+            // 
+            // videoToolStripMenuItem
+            // 
+            videoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicCopyToolStripMenuItem1, greyscaleToolStripMenuItem1, colorInversionToolStripMenuItem1, sepiaToolStripMenuItem1, subtractToolStripMenuItem });
+            videoToolStripMenuItem.Name = "videoToolStripMenuItem";
+            videoToolStripMenuItem.Size = new Size(62, 24);
+            videoToolStripMenuItem.Text = "Video";
+            // 
+            // basicCopyToolStripMenuItem1
+            // 
+            basicCopyToolStripMenuItem1.Name = "basicCopyToolStripMenuItem1";
+            basicCopyToolStripMenuItem1.Size = new Size(191, 26);
+            basicCopyToolStripMenuItem1.Text = "Basic Copy";
+            basicCopyToolStripMenuItem1.Click += basicCopyToolStripMenuItem1_Click;
+            // 
+            // greyscaleToolStripMenuItem1
+            // 
+            greyscaleToolStripMenuItem1.Name = "greyscaleToolStripMenuItem1";
+            greyscaleToolStripMenuItem1.Size = new Size(191, 26);
+            greyscaleToolStripMenuItem1.Text = "greyscale";
+            greyscaleToolStripMenuItem1.Click += greyscaleToolStripMenuItem1_Click;
+            // 
+            // colorInversionToolStripMenuItem1
+            // 
+            colorInversionToolStripMenuItem1.Name = "colorInversionToolStripMenuItem1";
+            colorInversionToolStripMenuItem1.Size = new Size(191, 26);
+            colorInversionToolStripMenuItem1.Text = "Color Inversion";
+            colorInversionToolStripMenuItem1.Click += colorInversionToolStripMenuItem1_Click;
+            // 
+            // sepiaToolStripMenuItem1
+            // 
+            sepiaToolStripMenuItem1.Name = "sepiaToolStripMenuItem1";
+            sepiaToolStripMenuItem1.Size = new Size(191, 26);
+            sepiaToolStripMenuItem1.Text = "Sepia";
+            sepiaToolStripMenuItem1.Click += sepiaToolStripMenuItem1_Click;
             // 
             // pictureBox1
             // 
@@ -206,33 +267,39 @@
             openFileDialog3.FileName = "openFileDialog3";
             openFileDialog3.FileOk += openFileDialog3_FileOk;
             // 
-            // button4
+            // timer1
             // 
-            button4.Location = new Point(377, 587);
-            button4.Name = "button4";
-            button4.Size = new Size(193, 44);
-            button4.TabIndex = 7;
-            button4.Text = "Start Web Cam";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            timer1.Interval = 10;
+            timer1.Tick += timer1_Tick;
             // 
-            // button5
+            // timer2
             // 
-            button5.Location = new Point(589, 587);
-            button5.Name = "button5";
-            button5.Size = new Size(177, 44);
-            button5.TabIndex = 8;
-            button5.Text = "Stop Web Cam";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            timer2.Tick += timer2_Tick;
+            // 
+            // timer3
+            // 
+            timer3.Tick += timer3_Tick;
+            // 
+            // timer4
+            // 
+            timer4.Tick += timer4_Tick;
+            // 
+            // timer5
+            // 
+            timer5.Tick += timer5_Tick;
+            // 
+            // subtractToolStripMenuItem
+            // 
+            subtractToolStripMenuItem.Name = "subtractToolStripMenuItem";
+            subtractToolStripMenuItem.Size = new Size(224, 26);
+            subtractToolStripMenuItem.Text = "Subtract";
+            subtractToolStripMenuItem.Click += subtractToolStripMenuItem_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1249, 659);
-            Controls.Add(button5);
-            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -243,6 +310,7 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -274,7 +342,18 @@
         private Button button3;
         private OpenFileDialog openFileDialog2;
         private OpenFileDialog openFileDialog3;
-        private Button button4;
-        private Button button5;
+        private ToolStripMenuItem onToolStripMenuItem;
+        private ToolStripMenuItem offToolStripMenuItem;
+        private ToolStripMenuItem videoToolStripMenuItem;
+        private ToolStripMenuItem greyscaleToolStripMenuItem1;
+        private System.Windows.Forms.Timer timer1;
+        private ToolStripMenuItem colorInversionToolStripMenuItem1;
+        private ToolStripMenuItem sepiaToolStripMenuItem1;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer timer3;
+        private ToolStripMenuItem basicCopyToolStripMenuItem1;
+        private System.Windows.Forms.Timer timer4;
+        private System.Windows.Forms.Timer timer5;
+        private ToolStripMenuItem subtractToolStripMenuItem;
     }
 }

@@ -1,5 +1,6 @@
-using AForge.Video;
-using AForge.Video.DirectShow;
+
+using WebCamLib;
+using ImageProcess2;
 
 namespace DIPAct
 {
@@ -8,9 +9,10 @@ namespace DIPAct
         Bitmap loaded, processed;
         Bitmap imageB, imageA; //image A is the background
         Bitmap resultImage;
+        Bitmap b;
+        Device[] devices;
 
 
-        VideoCaptureDevice webcam;
 
         Color green = Color.FromArgb(0, 0, 255); //  the target green
 
@@ -20,52 +22,9 @@ namespace DIPAct
             InitializeComponent();
         }
 
-        private void StartWebcam()
-        {
-            // Initialize the webcam and start capturing
-            var devices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            webcam = new VideoCaptureDevice(devices[0].MonikerString);
-            webcam.NewFrame += new NewFrameEventHandler(ProcessFrame);
-            webcam.Start();
-        }
-
-        private void ProcessFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-
-            Bitmap captureFrame = (Bitmap)eventArgs.Frame.Clone();
-            Bitmap resultImage = new Bitmap(captureFrame.Width, captureFrame.Height);
-            int threshold = 20;
-
-            for (int x = 0; x < captureFrame.Width; x++)
-            {
-                for (int y = 0; y < captureFrame.Height; y++)
-                {
-                    Color pixel = captureFrame.GetPixel(x, y);
-                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
-                    int greenGrey = (green.R + green.G + green.B) / 3;
-
-                    Color backpixel = imageA.GetPixel(x, y); // get the background
-                    int subtractvalue = Math.Abs(grey - greenGrey);
-
-                    if (subtractvalue < threshold)
-                        resultImage.SetPixel(x, y, backpixel);
-                    else
-                        resultImage.SetPixel(x, y, pixel);
-                }
-            }
 
 
-            pictureBox3.Image = resultImage;
-        }
 
-        private void StopWebcam()
-        {
-            if (webcam != null && webcam.IsRunning)
-            {
-                webcam.SignalToStop();
-                webcam.WaitForStop();
-            }
-        }
 
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -234,14 +193,193 @@ namespace DIPAct
             pictureBox3.Image = resultImage;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+
+        private void Form1_Load(object sender, EventArgs e)
         {
-            StartWebcam();
+            devices = DeviceManager.GetAllDevices();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void onToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopWebcam();
+            devices[0].ShowWindow(pictureBox3);
+        }
+
+        private void offToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            devices[0].Stop();
+        }
+
+        private void greyscaleToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //get 1 frame
+            IDataObject data;
+            Image bmap;
+            devices[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            Bitmap b = new Bitmap(bmap);
+
+            //processed = new Bitmap(b.Width, b.Height);
+            //Color pixel;
+            //int ave;
+            //for (int x = 0; x < b.Width; x++)
+            //{
+            //    for (int y = 0; y < b.Height; y++)
+            //    {
+            //        pixel = b.GetPixel(x, y);
+            //        ave = (pixel.R + pixel.G + pixel.B) / 3;
+            //        Color grey = Color.FromArgb(ave, ave, ave);
+            //        processed.SetPixel(x, y, grey);
+
+            //    }
+            //}
+
+            //pictureBox2.Image = processed;
+            BitmapFilter.GrayScale(b);
+            pictureBox2.Image = b;
+        }
+
+        private void colorInversionToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            timer2.Enabled = true;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+
+            IDataObject data;
+            Image bmap;
+            devices[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            Bitmap b = new Bitmap(bmap);
+            processed = new Bitmap(b.Width, b.Height);
+            Color pixel;
+
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    pixel = b.GetPixel(x, y);
+
+                    Color inversion = Color.FromArgb(255 - pixel.R, 255 - pixel.G, 255 - pixel.B);
+                    processed.SetPixel(x, y, inversion);
+
+                }
+            }
+
+            pictureBox2.Image = processed;
+        }
+
+        private void sepiaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            timer3.Enabled = true;
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+
+            IDataObject data;
+            Image bmap;
+            devices[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            Bitmap b = new Bitmap(bmap);
+
+            processed = new Bitmap(b.Width, b.Height);
+            Color pixel;
+            int red, green, blue;
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    pixel = b.GetPixel(x, y);
+                    red = (int)(0.393 * pixel.R + 0.769 * pixel.G + 0.189 * pixel.B);
+                    green = (int)(0.349 * pixel.R + 0.686 * pixel.G + 0.168 * pixel.B);
+                    blue = (int)(0.272 * pixel.R + 0.534 * pixel.G + 0.131 * pixel.B);
+
+                    Color sepia = Color.FromArgb(Math.Min(255, red), Math.Min(255, green), Math.Min(255, blue));
+                    processed.SetPixel(x, y, sepia);
+
+                }
+            }
+
+            pictureBox2.Image = processed;
+        }
+
+        private void basicCopyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            timer4.Enabled = true;
+
+        }
+
+        private void timer4_Tick(object sender, EventArgs e)
+        {
+            IDataObject data;
+            Image bmap;
+            devices[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            Bitmap b = new Bitmap(bmap);
+
+            processed = new Bitmap(b.Width, b.Height);
+            Color pixel;
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    pixel = b.GetPixel(x, y);
+                    processed.SetPixel(x, y, pixel);
+                }
+            }
+
+            pictureBox2.Image = processed;
+        }
+
+        private void timer5_Tick(object sender, EventArgs e)
+        {
+            IDataObject data;
+            Image bmap;
+            devices[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            Bitmap b = new Bitmap(bmap);
+
+            Color mygreen = Color.FromArgb(107, 137, 85);
+            int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3; //turn it into greyscale
+            int threshold = 5;
+            resultImage = new Bitmap(imageA.Width, imageA.Height);
+
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    Color pixel = b.GetPixel(x, y);
+                    Color backpixel = imageA.GetPixel(x, y);
+                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
+                    int subtractvalue = Math.Abs(grey - greygreen);
+                    if (subtractvalue < threshold)
+                    {
+                        resultImage.SetPixel(x, y, backpixel);
+                    }
+                    else
+                    {
+                        resultImage.SetPixel(x, y, pixel);
+                    }
+                }
+            }
+            pictureBox1.Image = resultImage;
+        }
+
+        private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer5.Enabled = true;
         }
     }
 }
