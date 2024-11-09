@@ -48,6 +48,7 @@
             embossAllDirectionToolStripMenuItem = new ToolStripMenuItem();
             lossyToolStripMenuItem = new ToolStripMenuItem();
             embossVerticalOnlyToolStripMenuItem = new ToolStripMenuItem();
+            embossHorizontalToolStripMenuItem = new ToolStripMenuItem();
             onToolStripMenuItem = new ToolStripMenuItem();
             offToolStripMenuItem = new ToolStripMenuItem();
             videoToolStripMenuItem = new ToolStripMenuItem();
@@ -71,7 +72,7 @@
             timer3 = new System.Windows.Forms.Timer(components);
             timer4 = new System.Windows.Forms.Timer(components);
             timer5 = new System.Windows.Forms.Timer(components);
-            embossHorizontalToolStripMenuItem = new ToolStripMenuItem();
+            edgeEnhanceToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -112,7 +113,7 @@
             // 
             // dIPToolStripMenuItem
             // 
-            dIPToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicCopyToolStripMenuItem, greyscaleToolStripMenuItem, colorInversionToolStripMenuItem, histogramToolStripMenuItem, sepiaToolStripMenuItem, smoothToolStripMenuItem, gaussianBlurToolStripMenuItem, sharpenToolStripMenuItem, meanRemovalToolStripMenuItem, embossingToolStripMenuItem, embossHorizontalVerticalToolStripMenuItem, embossAllDirectionToolStripMenuItem, lossyToolStripMenuItem, embossVerticalOnlyToolStripMenuItem, embossHorizontalToolStripMenuItem });
+            dIPToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicCopyToolStripMenuItem, greyscaleToolStripMenuItem, colorInversionToolStripMenuItem, histogramToolStripMenuItem, sepiaToolStripMenuItem, smoothToolStripMenuItem, gaussianBlurToolStripMenuItem, sharpenToolStripMenuItem, meanRemovalToolStripMenuItem, embossingToolStripMenuItem, embossHorizontalVerticalToolStripMenuItem, embossAllDirectionToolStripMenuItem, lossyToolStripMenuItem, embossVerticalOnlyToolStripMenuItem, embossHorizontalToolStripMenuItem, edgeEnhanceToolStripMenuItem });
             dIPToolStripMenuItem.Name = "dIPToolStripMenuItem";
             dIPToolStripMenuItem.Size = new Size(46, 24);
             dIPToolStripMenuItem.Text = "DIP";
@@ -214,6 +215,13 @@
             embossVerticalOnlyToolStripMenuItem.Size = new Size(280, 26);
             embossVerticalOnlyToolStripMenuItem.Text = "Emboss Vertical ";
             embossVerticalOnlyToolStripMenuItem.Click += embossVerticalOnlyToolStripMenuItem_Click;
+            // 
+            // embossHorizontalToolStripMenuItem
+            // 
+            embossHorizontalToolStripMenuItem.Name = "embossHorizontalToolStripMenuItem";
+            embossHorizontalToolStripMenuItem.Size = new Size(280, 26);
+            embossHorizontalToolStripMenuItem.Text = "Emboss Horizontal";
+            embossHorizontalToolStripMenuItem.Click += embossHorizontalToolStripMenuItem_Click;
             // 
             // onToolStripMenuItem
             // 
@@ -368,12 +376,12 @@
             // 
             timer5.Tick += timer5_Tick;
             // 
-            // embossHorizontalToolStripMenuItem
+            // edgeEnhanceToolStripMenuItem
             // 
-            embossHorizontalToolStripMenuItem.Name = "embossHorizontalToolStripMenuItem";
-            embossHorizontalToolStripMenuItem.Size = new Size(280, 26);
-            embossHorizontalToolStripMenuItem.Text = "Emboss Horizontal";
-            embossHorizontalToolStripMenuItem.Click += embossHorizontalToolStripMenuItem_Click;
+            edgeEnhanceToolStripMenuItem.Name = "edgeEnhanceToolStripMenuItem";
+            edgeEnhanceToolStripMenuItem.Size = new Size(280, 26);
+            edgeEnhanceToolStripMenuItem.Text = "Edge Enhance";
+            edgeEnhanceToolStripMenuItem.Click += edgeEnhanceToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -445,5 +453,6 @@
         private ToolStripMenuItem lossyToolStripMenuItem;
         private ToolStripMenuItem embossVerticalOnlyToolStripMenuItem;
         private ToolStripMenuItem embossHorizontalToolStripMenuItem;
+        private ToolStripMenuItem edgeEnhanceToolStripMenuItem;
     }
 }
